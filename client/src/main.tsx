@@ -9,12 +9,17 @@ import Sidebar from "./components/Sidebar.tsx";
 
 // Pages
 import StickyNotes from "./pages/StickyNotes.tsx";
+import KanbanBoard from "./pages/KanbanBoard.tsx";
 
 // Router
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/kanbanboard",
+    element: <KanbanBoard />,
   },
   {
     path: "/stickynotes",

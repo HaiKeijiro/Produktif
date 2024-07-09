@@ -1,35 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "/logo.svg";
-import { Dashboard, Info, Kanban, Setting, StickyNote } from "./Icons";
+import { Back, Dashboard, Info, Kanban, Setting, StickyNote } from "./Icons";
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   return (
-    <div className="w-[25%] h-[550px] bg-primary-light text-text-light">
-      <img src={logo} alt="logo.svg" className="w-[100px] mx-auto pt-2 py-10" />
-      <div className="flex flex-col justify-between h-[70%]">
-        <div className="space-y-8">
-          <h1>
-            <Dashboard /> Dashboard
-          </h1>
-          <h1>
-            <Kanban /> Kanban Board
-          </h1>
-          <h1>
-            <StickyNote /> Sticky Notes
-          </h1>
-        </div>
-        <div className="space-y-8">
-          <hr />
-          <h1>
-            <Setting /> Settings
-          </h1>
-          <h1>
-            <Info /> Help Center
-          </h1>
-        </div>
+    <nav className="relative flex flex-col justify-between w-1/4 h-full text-text-light bg-primary-light">
+      <div>
+        <img src={logo} alt="logo.svg" className="w-2/5 mx-auto pt-4 py-14" />
+        <ul className="w-11/12 m-auto">
+          <SidebarLink to="/dashboard" icon={<Dashboard />} text="Dashboard" />
+          <SidebarLink
+            to="/kanbanboard"
+            icon={<Kanban />}
+            text="Kanban Board"
+          />
+          <SidebarLink
+            to="/stickynotes"
+            icon={<StickyNote />}
+            text="Sticky Notes"
+          />
+        </ul>
       </div>
-    </div>
+      <div>
+        <hr />
+        <ul className="py-5">
+          <SidebarLink to="/settings" icon={<Setting />} text="Settings" />
+          <SidebarLink to="/help" icon={<Info />} text="Help Center" />
+        </ul>
+      </div>
+    </nav>
   );
 };
+
+interface SidebarLinkProps {
+  to: string;
+  icon: React.ReactNode;
+  text: string;
+}
+
+const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, text }) => (
+  <li className="rounded-md">
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `flex gap-x-2 px-5 py-3 ${
+          isActive ? "bg-button-light text-white rounded-lg" : ""
+        }`
+      }
+    >
+      {icon} {text}
+    </NavLink>
+  </li>
+);
 
 export default Sidebar;

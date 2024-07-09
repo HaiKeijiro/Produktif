@@ -4,7 +4,7 @@ import userImg from "/userImg.jpg";
 
 const Topbar: React.FC = () => {
   return (
-    <div className="h-16 bg-primary-light text-text-light flex items-center justify-between px-5">
+    <div className="h-[10%] bg-primary-light text-text-light flex items-center justify-between px-5">
       <div className="w-[25%] h-[70%] bg-background-light flex justify-between items-center rounded-md px-2">
         <div className="flex gap-x-2">
           <Search />
