@@ -1,6 +1,6 @@
 import React from "react";
-import { Time, Moon, Search } from "./Icons";
-import userImg from "/userImg.jpg";
+import { Time, Moon, Search } from "../components/Icons"
+import userImg from "../assets/userImg.jpg";
 
 const Topbar: React.FC = () => {
   return (

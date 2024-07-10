@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // Components
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../layout/Sidebar";
 import Topbar from "../components/Topbar";
 import { Plus } from "../components/Icons";
 
