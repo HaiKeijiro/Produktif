@@ -1,8 +1,11 @@
 import React from "react";
-import { Time, Moon, Search } from "../components/Icons"
-import userImg from "../assets/userImg.jpg";
+import { Time, Moon, Search } from "../components/Icons";
 
-const Topbar: React.FC = () => {
+interface TopbarProps {
+  profilePhoto: string | null;
+}
+
+const Topbar: React.FC<TopbarProps> = ({ profilePhoto }) => {
   return (
     <div className="h-[10%] bg-primary-light text-text-light flex items-center justify-between px-5">
       <div className="w-[25%] h-[70%] bg-background-light flex justify-between items-center rounded-md px-2">
@@ -19,7 +22,7 @@ const Topbar: React.FC = () => {
           <h1>Ryan Rb</h1>
           <img
             className="w-[50px] h-[50px] bg-cover rounded-full"
-            src={userImg}
+            src={profilePhoto || ""}
             alt="profile.png"
           />
         </div>
