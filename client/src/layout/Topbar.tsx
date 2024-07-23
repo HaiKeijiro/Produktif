@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactEventHandler, useState } from "react";
 import { Time, Moon, Search } from "../components/Icons";
 
 interface TopbarProps {
@@ -7,8 +7,8 @@ interface TopbarProps {
 
 const Topbar: React.FC<TopbarProps> = ({ profilePhoto }) => {
   return (
-    <div className="h-[10%] bg-primary-light text-text-light flex items-center justify-between px-5">
-      <div className="w-[25%] h-[70%] bg-background-light flex justify-between items-center rounded-md px-2">
+    <div className="h-[10%] bg-white text-text-light flex items-center justify-between px-5">
+      <div className="w-[25%] h-[70%] bg-neutral-50 flex justify-between items-center rounded-md px-2">
         <div className="flex gap-x-2">
           <Search />
           <p>Quick search...</p>
@@ -21,7 +21,7 @@ const Topbar: React.FC<TopbarProps> = ({ profilePhoto }) => {
         <div className="flex items-center gap-x-5">
           <h1>Ryan Rb</h1>
           <img
-            className="w-[50px] h-[50px] bg-cover rounded-full"
+            className="w-[50px] h-[50px] bg-cover rounded-full my-2"
             src={profilePhoto || ""}
             alt="profile.png"
           />

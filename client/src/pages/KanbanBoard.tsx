@@ -19,24 +19,18 @@ import TaskCard from "../components/TaskCard";
 
 const KanbanBoard: React.FC = () => {
   const [columns, setColumns] = useState<Column[]>([]);
-  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
+  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 3, // 3px?
-      },
+      activationConstraint: { distance: 3 },
     })
   );
 
-  const generateId = () => {
-    return crypto.randomUUID();
-  };
+  const generateId = () => crypto.randomUUID();
 
   const createTask = (columnId: Id) => {
     const newTask: Task = {
@@ -44,156 +38,115 @@ const KanbanBoard: React.FC = () => {
       columnId,
       content: `Task ${tasks.length + 1}`,
     };
-
-    setTasks([...tasks, newTask]);
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
   const deleteTask = (id: Id) => {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   const updateTask = (id: Id, content: string) => {
-    const newTasks = tasks.map((task) => {
-      if (task.id !== id) return task;
-      return { ...task, content };
-    });
-
-    setTasks(newTasks);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === id ? { ...task, content } : task))
+    );
   };
 
   const createNewColumn = () => {
-    const columnToAdd: Column = {
+    const newColumn: Column = {
       id: generateId(),
       title: `Column ${columns.length + 1}`,
     };
-
-    setColumns([...columns, columnToAdd]);
+    setColumns((prevColumns) => [...prevColumns, newColumn]);
   };
 
   const deleteColumn = (id: Id) => {
-    const filteredColumns = columns.filter((col) => col.id !== id);
-    setColumns(filteredColumns);
-
-    const newTasks = tasks.filter((t) => t.columnId !== id);
-    setTasks(newTasks)
+    setColumns((prevColumns) => prevColumns.filter((col) => col.id !== id));
+    setTasks((prevTasks) => prevTasks.filter((task) => task.columnId !== id));
   };
 
   const updateColumn = (id: Id, title: string) => {
-    const newColumns = columns.map((col) => {
-      if (col.id !== id) return col;
-      return { ...col, title };
-    });
-
-    setColumns(newColumns);
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => (col.id === id ? { ...col, title } : col))
+    );
   };
 
-  const onDragStart = (event: DragStartEvent) => {
-    if (event.active.data.current?.type === "Column") {
-      setActiveColumn(event.active.data.current.column);
-      return;
-    }
-
-    if (event.active.data.current?.type === "Task") {
-      setActiveTask(event.active.data.current.task);
-      return;
-    }
+  const handleDragStart = (event: DragStartEvent) => {
+    const { type, task, column } = event.active.data.current || {};
+    if (type === "Task") setActiveTask(task);
+    if (type === "Column") setActiveColumn(column);
   };
 
-  const onDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
     if (!over) return;
 
-    const activeColumnId = active.id;
-    const overColumnId = over.id;
-
-    if (activeColumnId === overColumnId) return;
-
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex(
-        (col) => col.id === activeColumnId
-      );
-
-      const overColumnIndex = columns.findIndex(
-        (col) => col.id === overColumnId
-      );
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
-  };
-
-  const onDragOver = (event: DragOverEvent) => {
-    const { active, over } = event;
-    if (!over) return;
-
-    const activeId = active.id;
-    const overId = over.id;
-
-    if (activeId === overId) return;
-
-    const isActiveATask = active.data.current?.type === "Task";
-    const isOverATask = over.data.current?.type === "Task";
-
-    if (!isActiveATask) return;
-
-    // Dropping a task over another task
-    if (isActiveATask && isOverATask) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const overIndex = tasks.findIndex((t) => t.id === overId);
-
-        tasks[activeIndex].columnId = tasks[overIndex].columnId;
-
-        return arrayMove(tasks, activeIndex, overIndex);
+    if (active.id !== over.id) {
+      setColumns((prevColumns) => {
+        const activeIndex = prevColumns.findIndex(
+          (col) => col.id === active.id
+        );
+        const overIndex = prevColumns.findIndex((col) => col.id === over.id);
+        return arrayMove(prevColumns, activeIndex, overIndex);
       });
     }
+  };
 
-    const isOverAColumn = over.data.current?.type === "Column";
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    // Dropping a task over a column
-    if (isActiveATask && isOverAColumn) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+    const activeType = active.data.current?.type;
+    const overType = over.data.current?.type;
 
-        tasks[activeIndex].columnId = overId;
+    if (activeType === "Task") {
+      const activeIndex = tasks.findIndex((task) => task.id === active.id);
+      const overIndex = tasks.findIndex((task) => task.id === over.id);
 
-        return arrayMove(tasks, activeIndex, activeIndex);
-      });
+      if (overType === "Task") {
+        setTasks((prevTasks) => {
+          const updatedTasks = [...prevTasks];
+          updatedTasks[activeIndex].columnId = updatedTasks[overIndex].columnId;
+          return arrayMove(updatedTasks, activeIndex, overIndex);
+        });
+      } else if (overType === "Column") {
+        setTasks((prevTasks) => {
+          const updatedTasks = [...prevTasks];
+          updatedTasks[activeIndex].columnId = over.id;
+          return updatedTasks;
+        });
+      }
     }
   };
 
   return (
-    <div className="bg-black text-white m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
+    <div className="bg-neutral-light m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
       <DndContext
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragOver={handleDragOver}
         sensors={sensors}
       >
         <div className="m-auto flex gap-4">
-          <div className="flex gap-4">
-            <SortableContext items={columnsId}>
-              {columns.map((col) => (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  deleteColumn={deleteColumn}
-                  deleteTask={deleteTask}
-                  updateColumn={updateColumn}
-                  updateTask={updateTask}
-                  createTask={createTask}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
-                />
-              ))}
-            </SortableContext>
-          </div>
+          <SortableContext items={columnsId}>
+            {columns.map((col) => (
+              <ColumnContainer
+                key={col.id}
+                column={col}
+                deleteColumn={deleteColumn}
+                deleteTask={deleteTask}
+                updateColumn={updateColumn}
+                updateTask={updateTask}
+                createTask={createTask}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
+              />
+            ))}
+          </SortableContext>
           <button
-            onClick={() => {
-              createNewColumn();
-            }}
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg border-2 p-4 bg-kanban-columnBg border-kanban-columnBg ring-rose-500 hover:ring-2 flex gap-2 items-center"
+            onClick={createNewColumn}
+            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg border-2 p-4 bg-neutral-black text-white outline-none hover:bg-black flex gap-2 items-center"
           >
             <div className="w-[4vh]">
               <Plus />
@@ -201,7 +154,6 @@ const KanbanBoard: React.FC = () => {
             Add Column
           </button>
         </div>
-
         {createPortal(
           <DragOverlay>
             {activeColumn && (

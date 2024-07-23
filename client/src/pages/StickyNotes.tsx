@@ -135,7 +135,7 @@ const StickyNotes: React.FC = () => {
           className="w-[22vw] bg-white rounded absolute cursor-pointer"
           style={{ top: `${card.top}px`, left: `${card.left}px` }}
         >
-          <header className="bg-yellow-500 h-10 flex justify-end pr-2">
+          <header className="bg-accent-main h-10 flex justify-end pr-2">
             <button
               className="w-[10%] my-auto text-white"
               onClick={() => toggleDropdown(index)}
@@ -143,9 +143,9 @@ const StickyNotes: React.FC = () => {
               <Menu />
             </button>
             {dropdownVisible[index] && (
-              <div className="absolute top-10 right-0 rounded shadow-lg p-2 transition-all duration-300">
+              <div className="absolute top-10 right-0 rounded shadow-lg p-2">
                 <button
-                  className="text-red-500 hover:text-red-700 size-6"
+                  className="text-accent-failed size-6 hover:animate-bounce"
                   onClick={() => deleteCard(index)}
                 >
                   <Trash />
@@ -163,9 +163,10 @@ const StickyNotes: React.FC = () => {
               placeholder="Title"
               defaultValue={card.title}
               onBlur={handleSave(index)}
+              autoFocus
             />
             <textarea
-              className="resize-none w-full min-h-[150px] outline-none font-medium text-[#A5A8AF]"
+              className="resize-none w-full bg-transparent min-h-[150px] outline-none font-medium text-[#A5A8AF]"
               placeholder="note..."
               defaultValue={card.note}
               onBlur={handleSave(index)}
@@ -180,7 +181,7 @@ const StickyNotes: React.FC = () => {
       ))}
       <button
         onClick={addCard}
-        className="fixed right-5 top-1/2 -translate-y-1/2 bg-button-light text-white rounded-full w-[8vh]"
+        className="fixed right-5 top-1/2 -translate-y-1/2 bg-black text-white rounded-full w-[8vh]"
       >
         <Plus />
       </button>

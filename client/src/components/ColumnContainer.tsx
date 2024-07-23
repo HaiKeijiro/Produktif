@@ -24,12 +24,9 @@ const ColumnContainer = ({
   deleteTask,
   updateTask,
 }: Props) => {
-
   const [editMode, setEditMode] = useState(false);
 
-  const tasksIds = useMemo(() => {
-    return tasks.map((task) => task.id);
-  }, [tasks]);
+  const tasksIds = useMemo(() => tasks.map((task) => task.id), [tasks]);
 
   const {
     setNodeRef,
@@ -40,10 +37,7 @@ const ColumnContainer = ({
     isDragging,
   } = useSortable({
     id: column.id,
-    data: {
-      type: "Column",
-      column,
-    },
+    data: { type: "Column", column },
     disabled: editMode,
   });
 
@@ -52,52 +46,44 @@ const ColumnContainer = ({
     transform: CSS.Transform.toString(transform),
   };
 
-  if (isDragging) {
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="bg-kanban-columnBg w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col opacity-40 border-2 border-rose-500"
-    ></div>;
-  }
+  const handleBlur = () => setEditMode(false);
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-kanban-columnBg w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
+      className={`bg-light w-[350px] h-fit max-h-[500px] rounded-md flex flex-col ${
+        isDragging ? "opacity-40 border-2 border-accent-main" : ""
+      }`}
     >
       <div
         {...attributes}
         {...listeners}
-        onClick={() => {
-          setEditMode(true);
-        }}
-        className="bg-kanban-mainBg text-md h-[60px] cursor-grab rounded-md rounded-b-none p-3 font-bold border-kanban-columnBg border-4 flex items-center justify-between"
+        onClick={() => setEditMode(true)}
+        className="bg-neutral-black text-white text-md h-[60px] cursor-grab rounded-md rounded-b-none p-3 font-bold border-4 flex items-center justify-between"
       >
         <div className="flex gap-2">
-          <div className="flex justify-center items-center bg-kanban-columnBg px-2 py-1 text-sm rounded-full">
-            0
+          <div className="flex justify-center items-center bg-light-primary px-2 py-1 text-sm rounded-full">
+            {tasks.length}
           </div>
-          {!editMode && column.title}
-          {editMode && (
+          {!editMode ? (
+            column.title
+          ) : (
             <input
-              className="bg-black focus:border-rose-500 border rounded outline-none px-2"
+              className="bg-transparent focus:border-accent-main border rounded outline-none px-2"
               value={column.title}
-              onChange={(event) => updateColumn(column.id, event.target.value)}
+              onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus
-              onBlur={() => setEditMode(false)}
-              onKeyDown={(event) => {
-                if (event.key !== "Enter") return;
-                setEditMode(false);
+              onBlur={handleBlur}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleBlur();
               }}
             />
           )}
         </div>
         <button
-          onClick={() => {
-            deleteColumn(column.id);
-          }}
-          className="w-[5vh] stroke-gray-500 hover:stroke-white hover:bg-kanban-columnBg rounded px-1 py-2"
+          onClick={() => deleteColumn(column.id)}
+          className="w-[5vh] stroke-gray-500 hover:stroke-accent-main hover:bg-black rounded px-1 py-2"
         >
           <Trash />
         </button>
@@ -115,10 +101,8 @@ const ColumnContainer = ({
         </SortableContext>
       </div>
       <button
-        onClick={() => {
-          createTask(column.id);
-        }}
-        className="flex gap-2 items-center border-kanban-columnBg border-2 rounded-md p-4 border-x-kanban-columnBg hover:bg-kanban-mainBg hover:text-rose-500 active:bg-black"
+        onClick={() => createTask(column.id)}
+        className="flex gap-2 items-center border-light-bg-light-primary border-2 rounded-md p-4 hover:bg-neutral-black hover:text-white active:bg-black"
       >
         <span className="w-[4vh]">
           <Plus />

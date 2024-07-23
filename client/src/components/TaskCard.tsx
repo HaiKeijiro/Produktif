@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Id, Task } from "../types";
-import { Trash } from "./Icons";
-import "../assets/kanban.css";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { Trash } from "./Icons";
+import "../assets/kanban.css";
 
 interface Props {
   task: Task;
@@ -11,7 +11,7 @@ interface Props {
   updateTask: (id: Id, content: string) => void;
 }
 
-function TaskCard({ task, deleteTask, updateTask }: Props) {
+const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
@@ -24,10 +24,7 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
     isDragging,
   } = useSortable({
     id: task.id,
-    data: {
-      type: "Task",
-      task,
-    },
+    data: { type: "Task", task },
     disabled: editMode,
   });
 
@@ -37,8 +34,15 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
   };
 
   const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
+    setEditMode(!editMode);
     setMouseIsOver(false);
+  };
+
+  const handleMouseEnter = () => setMouseIsOver(true);
+  const handleMouseLeave = () => setMouseIsOver(false);
+  const handleDeleteTask = () => deleteTask(task.id);
+  const handleUpdateTask = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateTask(task.id, event.target.value);
   };
 
   if (isDragging) {
@@ -46,7 +50,7 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-kanban-mainBg opacity-30 p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500 cursor-grab relative"
+        className="bg-neutral-black text-white opacity-30 p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl border-2 border-accent-main cursor-grab relative"
       />
     );
   }
@@ -58,7 +62,7 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-kanban-mainBg p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
+        className="bg-neutral-black text-white p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-accent-main cursor-grab relative"
       >
         <textarea
           className="h-[90%] w-full resize-none border-none rounded bg-transparent text-white focus:outline-none"
@@ -71,8 +75,8 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
               toggleEditMode();
             }
           }}
-          onChange={(event) => updateTask(task.id, event.target.value)}
-        ></textarea>
+          onChange={handleUpdateTask}
+        />
       </div>
     );
   }
@@ -84,23 +88,17 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      onMouseEnter={() => {
-        setMouseIsOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseIsOver(false);
-      }}
-      className="bg-kanban-mainBg p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="bg-neutral-black text-white p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-accent-main cursor-grab relative"
     >
       <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {task.content}
       </p>
       {mouseIsOver && (
         <button
-          onClick={() => {
-            deleteTask(task.id);
-          }}
-          className="bg-kanban-columnBg stroke-white absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100"
+          onClick={handleDeleteTask}
+          className="bg-accent-main stroke-white absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100"
         >
           <div className="w-[4vh]">
             <Trash />
@@ -109,6 +107,6 @@ function TaskCard({ task, deleteTask, updateTask }: Props) {
       )}
     </div>
   );
-}
+};
 
 export default TaskCard;

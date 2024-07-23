@@ -11,9 +11,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-rose-900 rounded-xl;
+  @apply bg-accent-main rounded-xl;
 }
 
 .task > ::-webkit-scrollbar-thumb {
-  @apply bg-sky-500 rounded-xl;
+  @apply bg-accent-main rounded-xl;
 }

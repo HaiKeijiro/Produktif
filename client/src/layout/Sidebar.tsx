@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from "/logo.svg";
+import logo from "/logo_produktif.svg";
 import {
   Dashboard,
   Info,
@@ -11,9 +11,9 @@ import {
 
 const Sidebar = () => {
   return (
-    <nav className="relative flex flex-col justify-between w-1/5 h-full text-text-light bg-primary-light">
+    <nav className="relative flex flex-col justify-between w-1/5 h-full text-text-light bg-white">
       <div>
-        <img src={logo} alt="logo.svg" className="w-2/5 mx-auto pt-4 py-14" />
+        <img src={logo} alt="logo.svg" className="w-3/5 mx-auto pt-4 pb-14" />
         <ul className="w-11/12 m-auto">
           <SidebarLink to="/dashboard" icon={<Dashboard />} text="Dashboard" />
           <SidebarLink
@@ -51,7 +51,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, text }) => (
       to={to}
       className={({ isActive }) =>
         `flex gap-x-2 px-5 py-3 ${
-          isActive ? "bg-button-light text-white rounded-lg" : ""
+          isActive ? "bg-neutral-100 rounded-lg" : ""
         }`
       }
     >

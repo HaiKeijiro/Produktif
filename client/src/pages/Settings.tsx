@@ -79,7 +79,7 @@ const Settings: React.FC<SettingsProps> = ({
         {profilePhoto && (
           <button
             onClick={() => setProfilePhoto(null)}
-            className="mt-4 bg-button-cancel button"
+            className="mt-4 bg-accent-failed button"
           >
             Remove Image
           </button>
@@ -89,7 +89,7 @@ const Settings: React.FC<SettingsProps> = ({
         <form action="" className="my-auto">
           <InputField label="Name" type="text" />
           <InputField label="Email" type="email" required={true} />
-          <button type="submit" className="bg-button-success button">Push</button>
+          <button type="submit" className="bg-accent-success button">Save</button>
         </form>
       </div>
     </div>
