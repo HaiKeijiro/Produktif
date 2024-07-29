@@ -52,7 +52,7 @@ const ColumnContainer = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-light w-[350px] h-fit max-h-[500px] rounded-md flex flex-col ${
+      className={`w-[250px] h-fit max-h-[500px] bg-neutral-black flex flex-col ${
         isDragging ? "opacity-40 border-2 border-accent-main" : ""
       }`}
     >
@@ -60,7 +60,7 @@ const ColumnContainer = ({
         {...attributes}
         {...listeners}
         onClick={() => setEditMode(true)}
-        className="bg-neutral-black text-white text-md h-[60px] cursor-grab rounded-md rounded-b-none p-3 font-bold border-4 flex items-center justify-between"
+        className="bg-neutral-black text-white text-md h-[60px] cursor-grab p-3 font-bold flex items-center justify-between"
       >
         <div className="flex gap-2">
           <div className="flex justify-center items-center bg-light-primary px-2 py-1 text-sm rounded-full">
@@ -102,7 +102,7 @@ const ColumnContainer = ({
       </div>
       <button
         onClick={() => createTask(column.id)}
-        className="flex gap-2 items-center border-light-bg-light-primary border-2 rounded-md p-4 hover:bg-neutral-black hover:text-white active:bg-black"
+        className="flex gap-2 items-center border-light-bg-light-primary rounded-b-md p-4 text-white"
       >
         <span className="w-[4vh]">
           <Plus />

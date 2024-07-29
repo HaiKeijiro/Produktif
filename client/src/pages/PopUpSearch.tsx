@@ -1,18 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { Search } from "../components/Icons";
 
-const PopUpSearch: React.FC = () => {
-  const [isSearch, setIsSearch] = useState(false);
+interface PopUpSearchProps {
+  isSearch: boolean;
+  toggleSearch: () => void;
+}
 
+const PopUpSearch: React.FC<PopUpSearchProps> = ({
+  isSearch,
+  toggleSearch,
+}) => {
   useEffect(() => {
     const handleSearch = (event: KeyboardEvent) => {
       if ((event.ctrlKey && event.key === "k") || event.key === "K") {
         event.preventDefault();
-        setIsSearch((prev) => !prev);
+        toggleSearch();
       }
 
       if (event.key === "Escape") {
-        setIsSearch(false);
+        toggleSearch();
       }
     };
 
@@ -23,7 +29,7 @@ const PopUpSearch: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleSearch);
     };
-  }, []);
+  }, [toggleSearch]);
 
   return (
     <div
@@ -41,7 +47,12 @@ const PopUpSearch: React.FC = () => {
           placeholder="Seach data"
           className="w-full bg-transparent outline-none"
         />
-        <button className="bg-kanban-columnBg button text-xs">ESC</button>
+        <button
+          className="bg-kanban-columnBg button text-xs"
+          onClick={toggleSearch}
+        >
+          ESC
+        </button>
       </div>
     </div>
   );

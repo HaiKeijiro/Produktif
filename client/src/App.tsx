@@ -20,10 +20,15 @@ function App() {
     "profilePhoto",
     null
   );
-
   const [hideSidebar, setHideSidebar] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+
   const handleSidebar = () => {
     setHideSidebar(!hideSidebar);
+  };
+
+  const toggleSearch = () => {
+    setIsSearch((prev) => !prev);
   };
 
   const location = useLocation();
@@ -31,22 +36,25 @@ function App() {
   const isIndependentPage = independentPaths.includes(location.pathname);
 
   return (
-    <>
-      <div className="flex h-screen overflow-hidden bg-neutral-light relative">
-        {/* Pop Up Search */}
-        <PopUpSearch />
-        {!isIndependentPage && !hideSidebar && <Sidebar />}
-        <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          {!isIndependentPage && <Topbar profilePhoto={profilePhoto} />}
-          <main className="max-w-screen-2xl">
-            {/* Hide and Open Sidebar */}
-            <button
-              onClick={handleSidebar}
-              className="absolute left-0 top-1/2 w-[1.5%] h-[8%] bg-neutral-black text-white rounded-r-xl z-10"
-            >
-              {hideSidebar ? <Open /> : <Back />}
-            </button>
-            {/* Pages */}
+    <div className="flex h-screen overflow-hidden bg-neutral-light dark:bg-neutral-black">
+      {!isIndependentPage && (
+        <PopUpSearch isSearch={isSearch} toggleSearch={toggleSearch} />
+      )}
+      {!isIndependentPage && !hideSidebar && <Sidebar />}
+      <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        {!isIndependentPage && (
+          <Topbar profilePhoto={profilePhoto} toggleSearch={toggleSearch} />
+        )}
+        <main className="max-w-screen-2xl">
+          {/* Hide and Open Sidebar */}
+          <button
+            onClick={handleSidebar}
+            className="absolute left-0 top-1/2 w-[1.5%] h-[8%] bg-neutral-black text-white rounded-r-xl z-10"
+          >
+            {hideSidebar ? <Open /> : <Back />}
+          </button>
+          {/* Pages */}
+          <div className="bg-red-500 w-full h-full">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/kanbanboard" element={<KanbanBoard />} />
@@ -62,10 +70,10 @@ function App() {
               />
               <Route path="/help" element={<Help />} />
             </Routes>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 

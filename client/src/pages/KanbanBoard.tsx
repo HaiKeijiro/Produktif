@@ -122,7 +122,7 @@ const KanbanBoard: React.FC = () => {
   };
 
   return (
-    <div className="bg-neutral-light m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
+    <div className="bg-neutral-light m-auto min-h-screen w-full overflow-x-auto overflow-y-hidden p-[3rem]">
       <DndContext
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -146,7 +146,7 @@ const KanbanBoard: React.FC = () => {
           </SortableContext>
           <button
             onClick={createNewColumn}
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg border-2 p-4 bg-neutral-black text-white outline-none hover:bg-black flex gap-2 items-center"
+            className="h-[60px] w-[250px] min-w-[250px] cursor-pointer rounded-lg border-2 p-4 bg-neutral-black text-white outline-none hover:bg-black flex gap-2 items-center"
           >
             <div className="w-[4vh]">
               <Plus />

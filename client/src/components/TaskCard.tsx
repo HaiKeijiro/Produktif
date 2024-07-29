@@ -90,7 +90,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
       onClick={toggleEditMode}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="bg-neutral-black text-white p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-accent-main cursor-grab relative"
+      className="bg-neutral-black text-white p-2.5 h-[50px] min-h-[50px] flex items-center text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-accent-main cursor-grab relative"
     >
       <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {task.content}
@@ -100,7 +100,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
           onClick={handleDeleteTask}
           className="bg-accent-main stroke-white absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100"
         >
-          <div className="w-[4vh]">
+          <div className="w-[3vh]">
             <Trash />
           </div>
         </button>
