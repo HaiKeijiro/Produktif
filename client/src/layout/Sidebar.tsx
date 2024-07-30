@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import logo from "/logo_produktif.svg";
 import {
   Dashboard,
   Info,
@@ -9,11 +8,21 @@ import {
   StickyNote,
 } from "../components/Icons";
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
-    <nav className="relative flex flex-col justify-between w-1/5 h-full text-text-light bg-white dark:bg-neutral-900 dark:text-white">
+    <nav
+      className={`relative flex flex-col justify-between h-full text-text-light border-r dark:text-white transition-all duration-300 ${
+        isOpen ? `w-1/5 opacity-100` : `w-0 opacity-0`
+      }`}
+    >
       <div>
-        <img src={logo} alt="logo.svg" className="w-3/5 mx-auto pt-4 pb-14" />
+        <div className="grid pt-4 pb-14">
+          <h1 className="text-4xl font-medium mx-auto">Produktif</h1>
+        </div>
         <ul className="w-11/12 m-auto">
           <SidebarLink to="/dashboard" icon={<Dashboard />} text="Dashboard" />
           <SidebarLink
@@ -51,7 +60,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, text }) => (
       to={to}
       className={({ isActive }) =>
         `flex gap-x-2 px-5 py-3 ${
-          isActive ? "bg-neutral-200 dark:bg-neutral-800 rounded-lg" : ""
+          isActive ? "bg-[#F4F4F4] dark:bg-[#272727] rounded-lg" : ""
         }`
       }
     >

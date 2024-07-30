@@ -35,7 +35,7 @@ const PopUpSearch: React.FC<PopUpSearchProps> = ({
     <div
       className={
         isSearch
-          ? "bg-button-light absolute w-3/5 h-3/5 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20"
+          ? "bg-neutral-500 absolute w-3/5 h-3/5 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20"
           : "hidden"
       }
     >

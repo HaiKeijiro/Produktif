@@ -7,7 +7,13 @@ const DarkModeToggle: React.FC = () => {
 
   return (
     <button onClick={toggleDarkMode} className="p-2">
-      {isDarkMode ? <Sun /> : <Moon />}
+      {isDarkMode ? (
+        <div className="text-neutral-light">
+          <Sun />
+        </div>
+      ) : (
+        <Moon />
+      )}
     </button>
   );
 };

@@ -20,7 +20,7 @@ function App() {
     "profilePhoto",
     null
   );
-  const [hideSidebar, setHideSidebar] = useState(false);
+  const [hideSidebar, setHideSidebar] = useState(true);
   const [isSearch, setIsSearch] = useState(false);
 
   const handleSidebar = () => {
@@ -36,11 +36,11 @@ function App() {
   const isIndependentPage = independentPaths.includes(location.pathname);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-neutral-light dark:bg-neutral-black">
+    <div className="flex h-screen overflow-hidden bg-white dark:bg-neutral-black">
       {!isIndependentPage && (
         <PopUpSearch isSearch={isSearch} toggleSearch={toggleSearch} />
       )}
-      {!isIndependentPage && !hideSidebar && <Sidebar />}
+      {!isIndependentPage && <Sidebar isOpen={hideSidebar} />}
       <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
         {!isIndependentPage && (
           <Topbar profilePhoto={profilePhoto} toggleSearch={toggleSearch} />
@@ -49,28 +49,26 @@ function App() {
           {/* Hide and Open Sidebar */}
           <button
             onClick={handleSidebar}
-            className="absolute left-0 top-1/2 w-[1.5%] h-[8%] bg-neutral-black text-white rounded-r-xl z-10"
+            className="absolute left-0 top-1/2 w-[1.5%] h-[8%] bg-neutral-black text-white dark:bg-[#323232] rounded-r-xl z-10"
           >
-            {hideSidebar ? <Open /> : <Back />}
+            {hideSidebar ? <Back /> : <Open />}
           </button>
           {/* Pages */}
-          <div className="bg-red-500 w-full h-full">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/kanbanboard" element={<KanbanBoard />} />
-              <Route path="/stickynotes" element={<StickyNotes />} />
-              <Route
-                path="/settings"
-                element={
-                  <Settings
-                    profilePhoto={profilePhoto}
-                    setProfilePhoto={setProfilePhoto}
-                  />
-                }
-              />
-              <Route path="/help" element={<Help />} />
-            </Routes>
-          </div>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/kanbanboard" element={<KanbanBoard />} />
+            <Route path="/stickynotes" element={<StickyNotes />} />
+            <Route
+              path="/settings"
+              element={
+                <Settings
+                  profilePhoto={profilePhoto}
+                  setProfilePhoto={setProfilePhoto}
+                />
+              }
+            />
+            <Route path="/help" element={<Help />} />
+          </Routes>
         </main>
       </div>
     </div>

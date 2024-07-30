@@ -14,7 +14,7 @@ export default {
         },
         neutral: {
           light: "#F3F3F3",
-          black: "#1D1D29"
+          black: "#1C1C1C"
         },
         kanban: {
           mainBg: "#0D1117",

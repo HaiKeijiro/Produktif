@@ -52,7 +52,7 @@ const ColumnContainer = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`w-[250px] h-fit max-h-[500px] bg-neutral-black flex flex-col ${
+      className={`w-[250px] h-fit max-h-[500px] bg-[#272727] flex flex-col ${
         isDragging ? "opacity-40 border-2 border-accent-main" : ""
       }`}
     >
@@ -60,7 +60,7 @@ const ColumnContainer = ({
         {...attributes}
         {...listeners}
         onClick={() => setEditMode(true)}
-        className="bg-neutral-black text-white text-md h-[60px] cursor-grab p-3 font-bold flex items-center justify-between"
+        className="bg-[#272727] text-white text-md h-[60px] cursor-grab p-3 font-bold flex items-center justify-between"
       >
         <div className="flex gap-2">
           <div className="flex justify-center items-center bg-light-primary px-2 py-1 text-sm rounded-full">
@@ -70,7 +70,7 @@ const ColumnContainer = ({
             column.title
           ) : (
             <input
-              className="bg-transparent focus:border-accent-main border rounded outline-none px-2"
+              className="bg-transparent focus:border-accent-main border rounded outline-none px-2 w-full"
               value={column.title}
               onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus

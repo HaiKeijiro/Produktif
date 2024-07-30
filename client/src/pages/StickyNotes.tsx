@@ -132,7 +132,7 @@ const StickyNotes: React.FC = () => {
           key={card.id}
           ref={(el) => (cardRefs.current[index] = el)}
           onMouseDown={handleMouseDown(index)}
-          className="w-[22vw] bg-white rounded absolute cursor-pointer"
+          className="w-[22vw] bg-[#F7F9FB] dark:bg-[#272727] border rounded absolute cursor-pointer"
           style={{ top: `${card.top}px`, left: `${card.left}px` }}
         >
           <header className="bg-accent-main h-10 flex justify-end pr-2">
@@ -166,7 +166,7 @@ const StickyNotes: React.FC = () => {
               autoFocus
             />
             <textarea
-              className="resize-none w-full bg-transparent min-h-[150px] outline-none font-medium text-[#A5A8AF]"
+              className="resize-none w-full bg-transparent min-h-[150px] outline-none font-medium text-[#9FA1A2]"
               placeholder="note..."
               defaultValue={card.note}
               onBlur={handleSave(index)}
