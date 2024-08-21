@@ -12,7 +12,7 @@ const Topbar: React.FC<TopbarProps> = ({ profilePhoto, toggleSearch }) => {
   return (
     <div className="h-[10%] border-y dark:text-[#5B5B5B] flex items-center justify-between px-5">
       <div
-        className="w-[25%] h-[70%] bg-[#F3F3F3] dark:bg-[#323232] text-[#C8C8C8] font-medium flex justify-between items-center rounded-md px-2 cursor-pointer"
+        className="w-[25%] h-[70%] bg-[#F3F3F3] text-[#C8C8C8] dark:bg-[#333333] dark:text-[#5C5C5C] font-medium flex justify-between items-center rounded-md px-2 cursor-pointer"
         onClick={toggleSearch}
       >
         <div className="flex gap-x-2">

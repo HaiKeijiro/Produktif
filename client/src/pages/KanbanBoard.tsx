@@ -146,7 +146,7 @@ const KanbanBoard: React.FC = () => {
           </SortableContext>
           <button
             onClick={createNewColumn}
-            className="h-[60px] w-[250px] min-w-[250px] cursor-pointer rounded-lg border-2 p-4 bg-[#272727] text-white outline-none flex gap-2 items-center"
+            className="h-[60px] w-[250px] min-w-[250px] cursor-pointer rounded-lg border-2 p-4 bg-[#282828] text-white outline-none flex gap-2 items-center"
           >
             <div className="w-[4vh]">
               <Plus />

@@ -15,7 +15,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
     <nav
-      className={`relative flex flex-col justify-between h-full text-text-light border-r dark:text-white transition-all duration-300 ${
+      className={`relative hidden md:flex flex-col justify-between h-full text-text-light border-r dark:text-white transition-all duration-300 ${
         isOpen ? `w-1/5 opacity-100` : `w-0 opacity-0`
       }`}
     >
@@ -60,7 +60,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, text }) => (
       to={to}
       className={({ isActive }) =>
         `flex gap-x-2 px-5 py-3 ${
-          isActive ? "bg-[#F4F4F4] dark:bg-[#272727] rounded-lg" : ""
+          isActive ? "bg-[#F4F4F4] border-[#C6C7F8] dark:bg-[#272727] rounded-lg" : ""
         }`
       }
     >
